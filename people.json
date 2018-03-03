@@ -1,0 +1,11 @@
+[
+  {"id": 1, "name": "jane", "age": 42, "hair": "brown", "awards": []},
+  {"id": 2, "name": "joe", "age": 12, "hair": "blue", "awards": [1]},
+  {"id": 3, "name": "bill", "age": 32, "hair": "gray", "awards": [2]},
+  {"id": 4, "name": "sarah", "age": 24, "hair": "blond", "awards": [3]},
+  {"id": 5, "name": "tom", "age": 45, "hair": "ginger", "awards": [1,2]},
+  {"id": 6, "name": "miles", "age": 19, "hair": "brown", "awards": [2,3]},
+  {"id": 7, "name": "betty", "age": 43, "hair": "brown", "awards": [1,2]},
+  {"id": 8, "name": "vance", "age": 42, "hair": "blue", "awards": [2,3]},
+  {"id": 9, "name": "fanny", "age": 42, "hair": "blue", "awards": [1,2,3]}
+]
