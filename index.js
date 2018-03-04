@@ -4,7 +4,6 @@
  * @param len length of each chunk
  * @return array
  * chunks one level deep
- * autocurries a length
  */
 let chunk = function(len, xs) {
   return args(arguments).length === 1 ? ys => chunk(len, ys) :
@@ -33,6 +32,17 @@ let diff = function(xs, ys) {
 let filt = function(f, os) {
   //return args(arguments).length > 1 ? os.filter(o => f(o)) : curryLast(filt, f)
   return args(arguments).length > 1 ? os.filter(o => f(o)) : ps => filt(f, ps)
+}
+
+/**
+ * @param filters array of unary functions that return a boolean
+ * @param data array
+ * filtMany is not auto-curried
+ * filtMany([1,2,11,12], [gtTen, isEven]) // 12
+ */
+let filtMany = function(filters, data) {
+  let fm = (d, f, l) => l === 0 ? d.filter(f[l]) : fm(d.filter(f[l-1]), f, l-1);
+  return fm(data, filters, filters.length);
 }
 
 let find = function(f, xs) {
@@ -104,7 +114,7 @@ let without = (rejects, arr) => arr.filter(x => !includes(rejects, x))
 
 // OBJECTS
 
-let isObject = (arg) => typeof arg === 'object' && !Array.isArray(arg)
+let isObject = arg => typeof arg === 'object' && !Array.isArray(arg)
   && arg !== null
 
 /**
