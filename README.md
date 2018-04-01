@@ -3,7 +3,7 @@ This is a functional programming starter kit that can be easily read and augment
 Like [Ramda](http://ramdajs.com/) (which is a far superior library in a completely different league, of course) this is an auto-curried collection of functions that accept data last. Passing data to be processed as the last parameter allows you to curry or partially apply the initial parameters, which has strong benefits:
 - function names are more explicit
 - you may pipe complex functions in a point-free style
-- you enjoy the power of unary functions as they might be expected in a monad, monoid, or other container
+- you enjoy the power of unary functions as they might be expected in other containers or functions
 
 All of this leads to more powerful, readable, maintainable, well-composed code. [example](https://github.com/crshmk/_/blob/master/examples.js)
 
