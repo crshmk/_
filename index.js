@@ -96,11 +96,6 @@ let rest = xs => xs.slice(1)
 let uniq = arr => arr.reduce((acc, x) =>
   includes(x, acc) ? acc : acc.concat(x), [])
 
-/**
- * @return array without values in first argument
- */
-let without = (rejects, arr) => arr.filter(x => !includes(rejects, x))
-
 
 // OBJECTS
 
@@ -239,7 +234,6 @@ module.exports = {
   nth,
   rest,
   uniq,
-  without,
   isObject,
   prop,
   propEq,
