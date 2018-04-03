@@ -115,8 +115,8 @@ let prop = function(k, o) {
  * @return function
  * propEq('one', 1)({one: 1}) // -> true
  */
-let propEq = function(k, v, o) {
-  return args(arguments).length > 2 ? equals(o[k], v) : partial(propEq, k, v)
+let propEq = function(v, k, o) {
+  return args(arguments).length > 2 ? equals(o[k], v) : partial(propEq, v, k)
 }
 
 /**
