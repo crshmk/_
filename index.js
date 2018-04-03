@@ -40,15 +40,6 @@ let filtMany = function(filters, data) {
 }
 
 /**
- * @param function f
- * @param collection os
- * @return collection
- */
-let find = function(f, os) {
-  return args(arguments).length > 1 ? os.filter(o => f(o)) : ps => find(f, ps)
-}
-
-/**
  * @param array xs
  * @return any
  */
