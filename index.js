@@ -1,9 +1,9 @@
 // ARRAYS
 
 /**
- * @param len length of each chunk
+ * @param number len
+ * @param array xs
  * @return array
- * chunks one level deep
  */
 let chunk = function(len, xs) {
   return args(arguments).length === 1 ? ys => chunk(len, ys) :
@@ -11,66 +11,80 @@ let chunk = function(len, xs) {
 }
 
 /**
- * @return array[0] -> xs not found in ys
- * @return array[1] -> ys not found in xs
+ * @param array xs
+ * @param array ys
+ * @return array
  */
 let diff = function(xs, ys) {
   return args(arguments).length === 1 ? zs => diff(xs, zs) :
     [xs.filter(x => ys.indexOf(x) === -1), ys.filter(y => xs.indexOf(y) === -1)]
 }
 
+/**
+ * @param function f
+ * @param array xs
+ * @return array
+ */
 let filt = function(f, xs) {
   return args(arguments).length > 1 ? xs.filter(f) : xs => xs.filter(f)
 }
 
 /**
- * @param filters array of unary functions that return a boolean
- * @param data array
- * filtMany is not auto-curried
- * filtMany([1,2,11,12], [gtTen, isEven]) // 12
+ * @param array of functions - filters
+ * @param array data
+ * @return array
  */
 let filtMany = function(filters, data) {
-  let fm = (d, f, l) => l === 0 ? d.filter(f[l]) : fm(d.filter(f[l-1]), f, l-1);
-  return fm(data, filters, filters.length);
+  let fm = (d, f, l) => l === 0 ? d.filter(f[l]) : fm(d.filter(f[l-1]), f, l-1)
+  return fm(data, filters, filters.length)
 }
 
+/**
+ * @param function f
+ * @param collection os
+ * @return collection
+ */
 let find = function(f, os) {
-  //return args(arguments).length > 1 ? os.filter(o => f(o)) : curryLast(filt, f)
   return args(arguments).length > 1 ? os.filter(o => f(o)) : ps => find(f, ps)
 }
 
+/**
+ * @param array xs
+ * @return any
+ */
 let first = function(xs) {
   return args(arguments).length > 0 && xs != null && xs.length ? xs[0] : null
 }
 
 /**
+ * @param primitive val
+ * @param array xs
  * @return boolean
  */
-//let includes = (val, xs) => xs.indexOf(val) > -1;
-
 let includes = function(val, xs) {
-  //return args(arguments).length > 1 ? xs.indexOf(val) > -1 : curryLast(includes, val)
   return args(arguments).length > 1 ? xs.indexOf(val) > -1 : ys => includes(val, ys)
 }
 
 /**
+ * @param array xs
+ * @param array ys
  * @return array
  */
-//let intersection = (arr1, arr2) => arr1.reduce( (acc, x) =>
-//  includes(arr2, x) ? acc.concat([x]) : acc, []);
-let intersection = function(arr1, arr2) {
+let intersection = function(xs, ys) {
   return args(arguments).length > 1 ? arr1.reduce( (acc, x) =>
-    includes(x, arr2) ? acc.concat([x]) : acc, []) :
-    curryLast(intersection, arr1);
-    //arr3 => includes(arr1, arr3)
+    includes(x, ys) ? acc.concat([x]) : acc, []) :
+    curryLast(intersection, xs);
 }
 
 /**
- * @return array
+ * @param array xs
+ * @return any
  */
 let last = xs => xs.slice(xs.length - 1)
 
 /**
+ * @param function f
+ * @param array xs
  * @return array
  */
 let map = function(f, xs) {
@@ -78,7 +92,9 @@ let map = function(f, xs) {
 }
 
 /**
- * @return array with element at index removed
+ * @param int i
+ * @param array xs
+ * @return array
  */
 let nth = function(i, xs) {
   return args(arguments).length > 1 ? xs.slice(0, i).concat(xs.slice(i+1)) :
@@ -86,24 +102,32 @@ let nth = function(i, xs) {
 }
 
 /**
+ * @param array xs
  * @return array
  */
 let rest = xs => xs.slice(1)
 
 /**
- * @return array of unique primitives
+ * @param array xs
+ * @return array
  */
-let uniq = arr => arr.reduce((acc, x) =>
+let uniq = xs => arr.reduce((acc, x) =>
   includes(x, acc) ? acc : acc.concat(x), [])
 
 
 // OBJECTS
 
+/**
+ * @param any arg
+ * @return boolean
+ */
 let isObject = arg => typeof arg === 'object' && !Array.isArray(arg)
   && arg !== null
 
 /**
- * @return value for key k
+ * @param string k
+ * @param object o
+ * @return any
  */
 let prop = function(k, o) {
   return args(arguments).length > 1 ?
@@ -112,29 +136,35 @@ let prop = function(k, o) {
 }
 
 /**
- * @return function
- * propEq('one', 1)({one: 1}) // -> true
+ * @param any v
+ * @param string k
+ * @param object o
+ * @return boolean
  */
 let propEq = function(v, k, o) {
   return args(arguments).length > 2 ? equals(o[k], v) : partial(propEq, v, k)
 }
 
 /**
- * propSatisfies(x => equals(x, 'blue'), 'hair', {hair: 'blue'}) // -> true
+ * @param function f
+ * @param string k
+ * @param object o
+ * @return boolean
  */
 let propSatisfies = function(f, k, o) {
   return args(arguments).length > 2 ? f(o[k]) : partial(propSatisfies, f, k)
 }
 
 /**
- * o: object literal - breaks with and object referring to a closed state
- * don't use constructed instances
+ * @param object o
+ * @return object
  */
- let deepClone = o => o != null ? JSON.parse(JSON.stringify(o)) : {}
+let deepClone = o => o != null ? JSON.parse(JSON.stringify(o)) : {}
 
 /**
- * default options to be overridden (like jQuery extend)
- * works with nested objects
+ * @param object defaults
+ * @param object over
+ * @return object
  */
 let extend = (defaults, over) => {
     let opts = deepClone(defaults)
@@ -147,14 +177,19 @@ let extend = (defaults, over) => {
 // PRIMITIVES
 
 /**
+ * @param primitive x
+ * @param primitive y
  * @return boolean
- * simple equality check for primitives only
- * Ramda has a more comprehensive solution http://ramdajs.com/docs/#equals
  */
 let equals = function(x, y) {
   return args(arguments).length > 1 ? x === y : y => x === y
 }
 
+/**
+ * @param string search
+ * @param string data
+ * @return boolean
+ */
 let hasText = function(search, data) {
   return args(arguments).length > 1 ?
     data.toLowerCase().indexOf(search.trim().toLowerCase()) > -1 :
@@ -168,16 +203,16 @@ let args = function(agts) {
 }
 
 /**
-* curry all but last argument
-* @param n[0] function to be curried
-* @param n[1] first argument to the function
-* @return function x => curried execution on x
+* @param function f
+* @param any x
+* @return function
 */
 let curryLast = function(fn, x) {
   return y => fn(x,y)
 }
 
 /**
+ * @param any x
  * @return boolean
  * empty array
  * empty string
@@ -189,10 +224,6 @@ let curryLast = function(fn, x) {
 let empty = x => Array.isArray(x) || typeof x === 'string' || typeof x === 'function' ?
   !x.length : null == x || Object.keys(x).length === 0 && x.constructor === Object
 
-  /**
-  * @function partial :: any, any, ... -> partially applied fn || executed fn on params
-  * partially apply arguments until all are received; then return application
-  */
 let partial = function() {
     let a = args(arguments)
     let f = a.splice(0, 1)[0]
@@ -208,10 +239,6 @@ let partial = function() {
     return a.length >= f.length ? f.apply(this, a) : again(a)
   }
 
-  /**
-* @function pipe :: function, function, ... -> function
-* create a pipeline of unary functions
-*/
 let pipe = function() {
   let fs = args(arguments)
   function caller(fs, acc) {
@@ -225,7 +252,7 @@ module.exports = {
   chunk,
   diff,
   filt,
-  find,
+  filtMany,
   first,
   includes,
   intersection,
