@@ -19,19 +19,8 @@ let diff = function(xs, ys) {
     [xs.filter(x => ys.indexOf(x) === -1), ys.filter(y => xs.indexOf(y) === -1)]
 }
 
-/**
- * @param f unary function returning a boolean
- * @return array of filtered items
- * auto curries when passed one param
- *
- * let isOne = propEq(1)
- * let oneIsOne = isOne('one')
- * let getOnes = filt(oneIsOne)
- * getOnes([{one: 1}, {two: 2}]) // -> [{one: 1}]
- */
-let filt = function(f, os) {
-  //return args(arguments).length > 1 ? os.filter(o => f(o)) : curryLast(filt, f)
-  return args(arguments).length > 1 ? os.filter(o => f(o)) : ps => filt(f, ps)
+let filt = function(f, xs) {
+  return args(arguments).length > 1 ? xs.filter(f) : xs => xs.filter(f)
 }
 
 /**
@@ -45,8 +34,9 @@ let filtMany = function(filters, data) {
   return fm(data, filters, filters.length);
 }
 
-let find = function(f, xs) {
-  return args(arguments).length > 1 ? xs.filter(f) : xs => xs.filter(f)
+let find = function(f, os) {
+  //return args(arguments).length > 1 ? os.filter(o => f(o)) : curryLast(filt, f)
+  return args(arguments).length > 1 ? os.filter(o => f(o)) : ps => find(f, ps)
 }
 
 let first = function(xs) {
@@ -128,7 +118,7 @@ let prop = function(k, o) {
 
 /**
  * @return function
- * propEq(1, 'one')({one: 1}) // -> true
+ * propEq('one', 1)({one: 1}) // -> true
  */
 let propEq = function(k, v) {
   return args(arguments).length > 1 ? o => equals(o[k], v) : curryLast(propEq, k)
