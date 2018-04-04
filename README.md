@@ -9,7 +9,7 @@ Like [Ramda](http://ramdajs.com/) (which is a far superior library in a complete
 The functions are auto-curried. This means that if a function accepts three arguments, you may just pass one or two as you like and a new function will be returned that will expect the remaining ones. This allows you to pass around functions in elegant, powerful ways.
 
 
-All of this leads to more powerful, readable, maintainable, well-composed code. [example](https://github.com/crshmk/_/blob/master/examples.js)
+All of this leads to more powerful, readable, maintainable, well-composed code. [example](#pipe)
 
 
 A large and popular functional programming library will perform much better. This is written specifically to be readable and extensible.
