@@ -86,7 +86,7 @@ includes(42, [42, 'red', true, null, undefined])
 *any of these primitive types may be tested*
 
 ### intersection  
-(array, array) :: array
+( array, array ) :: array
 
 ```javascript
 intersection([1, 2, 3], [2, 3, 4])
