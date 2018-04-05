@@ -92,6 +92,11 @@ let nth = function(i, xs) {
     xs => xs.slice(0, i).concat(xs.slice(i+1))
 }
 
+let reduce = function(fn, acc, xs) {
+  return args(arguments).length > 2 ? xs.reduce(fn, acc) :
+    partial(reduce, fn, acc, xs)
+}
+
 /**
  * @param array xs
  * @return array
@@ -217,16 +222,23 @@ let empty = x => Array.isArray(x) || typeof x === 'string' || typeof x === 'func
 
 let partial = function() {
     let a = args(arguments)
+    // strip undefined arguments
+    a = filt(x => !empty(x), a)
+    // get the function
     let f = a.splice(0, 1)[0]
+
     if (typeof f !== 'function') {
       throw new TypeError('first argument to partial must be a function')
     }
+
+    // recurse until all arguments are passed
     function again(oldArgs) {
       return function() {
         let ags = oldArgs.concat(args(arguments));
         return ags.length >= f.length ? f.apply(this, ags) : again(ags)
       }
     }
+
     return a.length >= f.length ? f.apply(this, a) : again(a)
   }
 
@@ -250,6 +262,7 @@ module.exports = {
   last,
   map,
   nth,
+  reduce,
   rest,
   uniq,
   isObject,

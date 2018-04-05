@@ -119,6 +119,18 @@ nth(2, [0, 1, 2, 3])
 ```
 *removes nth index*
 
+*new array; doesn't mutate*
+
+
+### reduce  
+( function(acc, any), acc, array ) :: any
+
+```javascript
+let sum = xs => reduce((acc, x) => acc + x, 0, xs)
+sum([1, 2, 3])
+// 6
+```
+
 ### rest  
 ( array ) :: array
 
