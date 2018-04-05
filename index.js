@@ -110,6 +110,29 @@ let rest = xs => xs.slice(1)
 let uniq = xs => arr.reduce((acc, x) =>
   includes(x, acc) ? acc : acc.concat(x), [])
 
+  /**
+   * @param array xs
+   * @param array ys
+   * @return array
+   */
+  let zip = function(xs, ys) {
+    return args(arguments).length > 1 ? zipWith( (x,y) => [x,y], xs, ys) :
+      zs => zip(xs, zs)
+  }
+
+  /**
+   * @param function fn
+   * @param array xs
+   * @param array ys
+   * @return array
+   */
+  var zipWith = function(fn, xs, ys) {
+    return args(arguments).length > 2 ?
+      xs.reduce( (acc, x, i) => {
+        return ys[i] == null ? acc : acc.concat( [fn(x, ys[i]) ])
+      }, []) :
+    partial(zipWith, fn, xs);
+  }
 
 // OBJECTS
 
@@ -265,6 +288,8 @@ module.exports = {
   reduce,
   rest,
   uniq,
+  zip,
+  zipWith,
   isObject,
   prop,
   propEq,

@@ -148,6 +148,24 @@ uniq([1, 1, 1, true, true, null, null, {one: 1}, {one: 1}])
 ```
 *unique primitives*
 
+### zip  
+( array, array ) :: array
+
+```javascript
+zip([1, 2, 3], [4, 5, 6])
+// [ [1, 4], [2, 5], [3, 6] ]
+```
+
+### zipWith  
+( function(any, any) :: any, array, array ) :: array
+
+```javascript
+var add = (x,y) => x+y
+zipWith(add, [1, 2, 3], [4, 5, 6])
+// [5, 7, 9]
+```
+*[ add(1, 4), add(2, 5), add(3, 6) ]*
+
 Objects
 ---
 
