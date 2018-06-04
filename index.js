@@ -107,7 +107,7 @@ let rest = xs => xs.slice(1)
  * @param array xs
  * @return array
  */
-let uniq = xs => arr.reduce((acc, x) =>
+let uniq = xs => xs.reduce((acc, x) =>
   includes(x, acc) ? acc : acc.concat(x), [])
 
 /**
