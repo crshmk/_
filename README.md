@@ -224,7 +224,7 @@ deepClone({one: 1, two: {three: 3}})
 
 ```javascript
 let defaults = {baseURL: '/api/', auth: {apiKey: true, admin: false}}
-extend(defaults, {baseURL: '/catalogue', auth: {admin: true}})
+extend(defaults, {baseURL: '/catalogue/', auth: {admin: true}})
 // {baseURL: '/catalogue/', auth: {apiKey: true, admin: true}}
 ```
 *object literals only*
