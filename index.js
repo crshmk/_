@@ -62,7 +62,7 @@ let includes = function(val, xs) {
  * @return array
  */
 let intersection = function(xs, ys) {
-  return args(arguments).length > 1 ? arr1.reduce( (acc, x) =>
+  return args(arguments).length > 1 ? xs.reduce( (acc, x) =>
     includes(x, ys) ? acc.concat([x]) : acc, []) :
     curryLast(intersection, xs);
 }
