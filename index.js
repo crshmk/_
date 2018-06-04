@@ -71,7 +71,7 @@ let intersection = function(xs, ys) {
  * @param array xs
  * @return any
  */
-let last = xs => xs.slice(xs.length - 1)
+let last = xs => xs.slice(xs.length - 1)[0]
 
 /**
  * @param function f
