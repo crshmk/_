@@ -6,7 +6,7 @@ let avg = xs => sum(xs) / xs.length
 
 
 //  get people names
-let pluck = (k, data) => _.map(_.prop(k), data)
+let pluck = (k, os) => _.map(_.prop(k), os)
 pluck('name', people)
 // -> [ 'jane', 'joe', 'bill', 'sarah', 'tom', ...]
 
