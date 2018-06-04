@@ -160,7 +160,7 @@ zip([1, 2, 3], [4, 5, 6])
 ( function(any, any) :: any, array, array ) :: array
 
 ```javascript
-var add = (x,y) => x+y
+let add = (x,y) => x+y
 zipWith(add, [1, 2, 3], [4, 5, 6])
 // [5, 7, 9]
 ```
@@ -199,12 +199,13 @@ propEq(1, 'one', {one: 1})
 ```
 
 ### propSatisfies  
-( function :: boolean, string, object ) :: boolean
+( function(any) :: boolean, string, object ) :: boolean
 
 ```javascript
-propSatisfies(x => equals(x, 'blue'), 'hair', {hair: 'blue'})
+propSatisfies(k => equals(k, 'blue'), 'hair', {hair: 'blue'})
 // true
 ```
+*fn('blue')*
 
 ### deepClone  
 ( object ) :: object
@@ -298,7 +299,7 @@ var products = [
 ]
 
 var isModern = filt(o => o.category === 'modern')
-var isNice = filt(o => hasText('nice', o.name) )
+var isNice = filt(o => hasText('nice', o.name))
 var names = map(prop('name'))
 
 var modernAndNice = pipe(isModern, isNice, names)
