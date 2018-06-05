@@ -228,6 +228,7 @@ extend(defaults, {baseURL: '/catalogue/', auth: {admin: true}})
 // {baseURL: '/catalogue/', auth: {apiKey: true, admin: true}}
 ```
 *object literals only*
+*extend is not autocurried*
 
 ### equals  
 ( primitive, primitive ) :: boolean
