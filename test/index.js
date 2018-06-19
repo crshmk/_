@@ -233,18 +233,22 @@ describe('Utility functions', () => {
   })
 
   it('pipe', () => {
-    var products = [
+    let products = [
       {id: 1, name: 'nice chair', category: 'modern'},
       {id: 2, name: 'nice book', category: 'modern'},
       {id: 3, name: 'bad chair', category: 'modern'},
       {id: 4, name: 'nice chair', category: 'vintage'}
     ]
 
-    var isModern = _.filt(o => o.category === 'modern')
-    var isNice = _.filt(o => _.hasText('nice', o.name))
-    var names = _.map(_.prop('name'))
+    let name = _.prop('name')
+    let isModern = o => _.equals(_.prop('category', o), 'modern')
+    let isNice = o => _.hasText('nice', name(o))
 
-    var modernAndNice = _.pipe(isModern, isNice, names)
+    let moderns = _.filt(isModern)
+    let nices = _.filt(isNice)
+    let names = _.map(name)
+
+    let modernAndNice = _.pipe(moderns, nices, names)
 
     expect(modernAndNice(products)).to.deep.equal(["nice chair", "nice book"])
   })

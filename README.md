@@ -290,20 +290,24 @@ addTen(2)
 *when passed fewer arguments than the arity of the first argument (a function), returns a function that waits for the remaining arguments. when passed enough arguments, executes the function passed as the first parameter with given arguments*
 
 ### pipe
-( function, function, ...fn ) :: function
+( function, function, ... ) :: function
 ```javascript
-var products = [
+let products = [
   {id: 1, name: 'nice chair', category: 'modern'},
   {id: 2, name: 'nice book', category: 'modern'},
   {id: 3, name: 'bad chair', category: 'modern'},
   {id: 4, name: 'nice chair', category: 'vintage'}
 ]
 
-var isModern = filt(o => o.category === 'modern')
-var isNice = filt(o => hasText('nice', o.name))
-var names = map(prop('name'))
+let name = _.prop('name')
+let isModern = o => _.equals(_.prop('category', o), 'modern')
+let isNice = o => _.hasText('nice', name(o))
 
-var modernAndNice = pipe(isModern, isNice, names)
+let moderns = _.filt(isModern)
+let nices = _.filt(isNice)
+let names = _.map(name)
+
+let modernAndNice = _.pipe(moderns, nices, names)
 
 modernAndNice(products)
 // ["nice chair", "nice book"]
