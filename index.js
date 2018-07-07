@@ -144,14 +144,46 @@ let isObject = arg => typeof arg === 'object' && !Array.isArray(arg)
   && arg !== null
 
 /**
+
+ * moved to overloaded prop 
+
+ * @param ks array of strings
+ * @param o object
+ * @return object
+
+
+ let pick = function(ks, o) {
+   if (args(arguments).length < 2) return curryLast(pick, ks)
+   var picked = {};
+   ks.forEach(k => {picked[k] = o[k] != null ? o[k] : null})
+   return picked;
+ }
+ */
+
+/**
  * @param string k
  * @param object o
  * @return any
  */
+ /*
 let prop = function(k, o) {
   return args(arguments).length > 1 ?
    !isObject(o) ? undefined : o[k] !== null ? o[k] : undefined :
    curryLast(prop, k)
+}
+*/
+
+// returns an array of values when passed a key string
+//    or an array of objects when passed an array of key strings
+
+let prop = function(k, o) {
+  if (args(arguments).length < 2) return curryLast(prop, k)
+  if (Array.isArray(k)) {
+    var picked = {};
+    k.forEach(x => {picked[x] = o[x] != null ? o[x] : null})
+    return picked;
+  }
+  return !isObject(o) ? {} : o[k] != null ? o[k] : null
 }
 
 /**
@@ -163,6 +195,23 @@ let prop = function(k, o) {
 let propEq = function(v, k, o) {
   return args(arguments).length > 2 ? equals(o[k], v) : partial(propEq, v, k)
 }
+
+/**
+ * @param ks array of strings (keys)
+ * @param os array of objects
+ * @return array
+
+let props = function(ks, os) {
+  return args(arguments).length < 2 ? curryLast(props, ks) :
+  os.reduce( (acc, x) => {
+    var y = {};
+    ks.forEach(k => {y[k] = x[k]});
+    acc.push(y);
+    return acc;
+  }, [])
+}
+ */
+
 
 /**
  * @param function f
