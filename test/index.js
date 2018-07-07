@@ -151,6 +151,11 @@ describe('Object functions', () => {
 
     expect( _.prop('x') ).to.be.a('function')
     expect( _.prop('x', {x: x => x})(42) ).to.equal(42)
+    expect( _.prop(
+      ['id', 'name'],
+      {id: 1, name: 'estragon', seeking: 'godot', hasRope: false}
+    )).to.deep.equal({id: 1, name: 'estragon'})
+
   })
 
   it('propEq', () => {
