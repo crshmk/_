@@ -180,7 +180,7 @@ isObject({one: 1})
 ```
 
 ### prop  
-( string, object ) :: any
+( string || array, object ) :: any || array
 
 ```javascript
 prop('x', {x: 42, y: 43})
@@ -188,7 +188,13 @@ prop('x', {x: 42, y: 43})
 
 prop('x', {x: x => x})(42)
 // 42
+
+prop(['id', 'name'], {id: 1, name: 'estragon', seeking: 'godot', hasRope: false})
+// {id: 1, name: 'estragon'}
 ```
+*when passed a string denoting a key, returns the value of that key on an object*
+
+*when passed an array of strings denoting keys, returns an object with those key/value pairs*
 
 ### propEq
 ( primitive, string, object ) :: boolean
@@ -205,7 +211,6 @@ propEq(1, 'one', {one: 1})
 propSatisfies(k => equals(k, 'blue'), 'hair', {hair: 'blue'})
 // true
 ```
-*fn('blue')*
 
 ### deepClone  
 ( object ) :: object
@@ -228,6 +233,7 @@ extend(defaults, {baseURL: '/catalogue/', auth: {admin: true}})
 // {baseURL: '/catalogue/', auth: {apiKey: true, admin: true}}
 ```
 *object literals only*
+
 *extend is not autocurried*
 
 ### equals  
