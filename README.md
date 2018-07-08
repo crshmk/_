@@ -293,18 +293,16 @@ let products = [
   {id: 4, name: 'nice chair', category: 'vintage'}
 ]
 
-let name = _.prop('name')
-let isModern = o => _.equals(_.prop('category', o), 'modern')
-let isNice = o => _.hasText('nice', name(o))
+let moderns = _.filt(_.propEq('modern', 'category'))
+let nices = _.filt(_.propSatisfies(_.hasText('nice'), 'name'))
+let names = _.map(_.prop('name'))
 
-let moderns = _.filt(isModern)
-let nices = _.filt(isNice)
-let names = _.map(name)
+let modernAndNiceNames = _.pipe(moderns, nices, names)
 
-let modernAndNice = _.pipe(moderns, nices, names)
-
-modernAndNice(products)
+modernAndNiceNames(products)
 // ["nice chair", "nice book"]
 
 ```
 *composing like this is the entire point*
+
+[more examples](https://github.com/crshmk/_/blob/master/examples/examples.js)
