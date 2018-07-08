@@ -26,7 +26,8 @@ let diff = function(xs, ys) {
  * @return array
  */
 let filt = function(f, xs) {
-  return args(arguments).length > 1 ? xs.filter(f) : xs => xs.filter(f)
+  return args(arguments).length < 2 ? curryLast(filt, f) :
+  Array.isArray(f) ? filtMany(f, xs) : xs.filter(f)
 }
 
 /**
@@ -34,7 +35,7 @@ let filt = function(f, xs) {
  * @param array data
  * @return array
  */
-let filtMany = function(filters, data) {
+var filtMany = function(filters, data) {
   let fm = (d, f, l) => l === 0 ? d.filter(f[l]) : fm(d.filter(f[l-1]), f, l-1)
   return fm(data, filters, filters.length)
 }
@@ -145,7 +146,7 @@ let isObject = arg => typeof arg === 'object' && !Array.isArray(arg)
 
 /**
 
- * moved to overloaded prop 
+ * moved to overloaded prop
 
  * @param ks array of strings
  * @param o object
@@ -327,7 +328,6 @@ module.exports = {
   chunk,
   diff,
   filt,
-  filtMany,
   first,
   includes,
   intersection,

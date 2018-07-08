@@ -5,6 +5,7 @@ let people = require('./people.json');
 let sum = _.reduce((acc, x) => acc + x, 0)
 let avg = xs => sum(xs) / xs.length
 let isEven = x => x % 2 === 0
+let isAdult = _.propSatisfies(a => a > 17, 'age')
 
 
 // get specific properties from a collection
@@ -19,14 +20,23 @@ pluck(['name', 'age'], people)
 //     { name: 'joe', age: 12 }, ...]
 
 
+// pass filt a single filter or an array of filters
+let hasMultipleAwards = o => o.awards.length > 1
+let hasBrownHair = _.propEq('brown', 'hair')
+_.filt([isAdult, hasMultipleAwards, hasBrownHair], people)
+// -> [
+//      {id: 6, name: "miles", age: 19, hair: "brown", awards: Array(2), …},
+//      {id: 7, name: "betty", age: 43, hair: "brown", awards: Array(2), …}
+ //  ]
+
+
 // get the average age of adults with blue hair
 let avgAgeAdultsBlueHair = (function() {
 
-  let adults = _.filt(_.propSatisfies(a => a > 17, 'age'))
-  let haveBlueHair = _.filt(_.propEq('blue', 'hair'))
+  let blueHair = _.propEq('blue', 'hair')
   let ages = _.map(_.prop('age'))
 
-  return _.pipe(adults, haveBlueHair, ages, avg)
+  return _.pipe(_.filt([isAdult, blueHair]), ages, avg)
 
 })();
 avgAgeAdultsBlueHair(people)
@@ -51,7 +61,8 @@ hairById(3, people)
 
  _.pipe(
    _.filt(_.propEq(true, 'active')),
-   _.map(_.prop('awards')), _.map(sum),
+   _.map(_.prop('awards')),
+   _.map(sum),
    sum
  )(people)
 // -> 20
@@ -60,17 +71,6 @@ let actives = _.filt(_.propEq(true, 'active'))
 let awards = _.map(_.prop('awards'))
 _.pipe(actives, awards, _.map(sum), sum)(people)
 // -> 20
-
-
-// multiple filters can use filtMany
-let isAdult = o => o.age > 17
-let hasMultipleAwards = o => o.awards.length > 1
-let hasBrownHair = _.propEq('brown', 'hair')
-_.filtMany([isAdult, hasMultipleAwards, hasBrownHair], people)
-// -> [
-//      {id: 6, name: "miles", age: 19, hair: "brown", awards: Array(2), …},
-//      {id: 7, name: "betty", age: 43, hair: "brown", awards: Array(2), …}
- //  ]
 
 
 // implement your own reduceWhile

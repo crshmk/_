@@ -45,28 +45,19 @@ diff([1, 2, 3, 4], [3, 4, 5, 6])
 ```
 
 ### filt  
-( function(any) :: boolean, array ) :: array
+( function(any) :: boolean || array[function(any) :: boolean, ...] , array ) :: array
 ```javascript
 let gt10 = x => x > 10
-filt(gt10, [5, 7, 11, 13])
-// [11, 13]
-```
-
-
-### filtMany  
-
-( [ function(any) :: boolean, function(any) :: boolean, ... ], array ) :: array
-
-
-```javascript
-var gt10 = x => x > 10
 var isEven = x => x % 2 === 0
 
-filtMany([gt10, isEven], [2, 3, 12, 13, 14])
-// [12, 14]
-```
-*filtMany is not auto-curried*
+filt(gt10, [5, 7, 11, 13])
+// [11, 13]
 
+filt([gt10, isEven], [2, 3, 12, 13, 14])
+// [12, 14]
+
+```
+*takes a filter function or an array of filter functions and an array to be filtered*
 
 ### first  
 ( array ) :: any
@@ -120,7 +111,6 @@ nth(2, [0, 1, 2, 3])
 *removes nth index*
 
 *new array; doesn't mutate*
-
 
 ### reduce  
 ( function(acc, any), acc, array ) :: any
@@ -250,8 +240,6 @@ equals(false, null)
 *simple equality check for primitives only*
 
 *Ramda has a more comprehensive [solution](http://ramdajs.com/docs/#equals)*
-
-
 
 ### hasText
 ( string, string ) :: boolean

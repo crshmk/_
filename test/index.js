@@ -28,23 +28,16 @@ describe('Array functions', () => {
 
   it('filt', () => {
     let gt10 = x => x > 10
-    let xs = [5, 7, 11, 13]
-    let expected = [11, 13]
-    expect( _.filt(gt10, xs) ).to.deep.equal(expected)
-
-    expect( _.filt(gt10) ).to.be.a('function')
-    expect( _.filt(gt10)(xs) ).to.deep.equal(expected)
-  })
-
-  it('filtMany', () => {
-    let gt10 = x => x > 10
     let isEven = x => x % 2 === 0
     let xs = [2, 3, 12, 13, 14]
-    let expected = [12, 14]
+    let singleExpected = [12, 13, 14]
+    let arrayExpected = [12, 14]
+    expect( _.filt(gt10, xs) ).to.deep.equal(singleExpected)
 
-    expect( _.filtMany([gt10, isEven], xs) ).to.deep.equal(expected)
-
-    //filtMany is not autocurried
+    expect( _.filt(gt10) ).to.be.a('function')
+    expect( _.filt([gt10, isEven]) ).to.be.a('function')
+    expect( _.filt(gt10)(xs) ).to.deep.equal(singleExpected)
+    expect( _.filt([gt10, isEven], xs) ).to.deep.equal(arrayExpected)
   })
 
   it('first', () => {
