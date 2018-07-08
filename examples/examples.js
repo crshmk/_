@@ -21,7 +21,7 @@ pluck(['name', 'age'], people)
 
 
 // pass filt a single filter or an array of filters
-let hasMultipleAwards = o => o.awards.length > 1
+let hasMultipleAwards = _.propSatisfies(awards => awards.length > 1, 'awards')
 let hasBrownHair = _.propEq('brown', 'hair')
 _.filt([isAdult, hasMultipleAwards, hasBrownHair], people)
 // -> [
