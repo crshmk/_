@@ -35,10 +35,8 @@ let filt = function(f, xs) {
  * @param array data
  * @return array
  */
-var filtMany = function(filters, data) {
-  let fm = (d, f, l) => l === 0 ? d.filter(f[l]) : fm(d.filter(f[l-1]), f, l-1)
-  return fm(data, filters, filters.length)
-}
+ filtMany = (f, d) => 
+   f.length < 2 ? d.filter(f[0]) : filtMany(f, d.filter(f.shift()))
 
 /**
  * @param array xs
