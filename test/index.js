@@ -144,11 +144,20 @@ describe('Object functions', () => {
 
     expect( _.prop('x') ).to.be.a('function')
     expect( _.prop('x', {x: x => x})(42) ).to.equal(42)
-    expect( _.prop(
-      ['id', 'name'],
-      {id: 1, name: 'estragon', seeking: 'godot', hasRope: false}
-    )).to.deep.equal({id: 1, name: 'estragon'})
-
+    let book =
+    {
+      id: 1,
+      fiction: true,
+      character: {
+        name: 'estragon',
+        seeking: 'godot',
+        hasRope: false
+      }
+    }
+    expect( _.prop(['id', 'fiction'], book)).to.deep.equal({id: 1, fiction: true})
+    expect( _.prop('character.name', book)).to.equal('estragon')
+    expect( _.prop('character.fortitude', book)).to.equal(false)
+    expect( _.prop('fortitude', book)).to.equal(undefined)
   })
 
   it('propEq', () => {

@@ -35,7 +35,7 @@ let filt = function(f, xs) {
  * @param array data
  * @return array
  */
- filtMany = (f, d) => 
+ filtMany = (f, d) =>
    f.length < 2 ? d.filter(f[0]) : filtMany(f, d.filter(f.shift()))
 
 /**
@@ -143,46 +143,22 @@ let isObject = arg => typeof arg === 'object' && !Array.isArray(arg)
   && arg !== null
 
 /**
-
- * moved to overloaded prop
-
- * @param ks array of strings
- * @param o object
- * @return object
-
-
- let pick = function(ks, o) {
-   if (args(arguments).length < 2) return curryLast(pick, ks)
-   var picked = {};
-   ks.forEach(k => {picked[k] = o[k] != null ? o[k] : null})
-   return picked;
- }
+ * passed -> returns
+ * string -> value at that key or, if containing '.', value at that nested key
+ * array of key strings -> object with those props
+ * single key string param -> curried version
  */
-
-/**
- * @param string k
- * @param object o
- * @return any
- */
- /*
-let prop = function(k, o) {
-  return args(arguments).length > 1 ?
-   !isObject(o) ? undefined : o[k] !== null ? o[k] : undefined :
-   curryLast(prop, k)
-}
-*/
-
-// returns an array of values when passed a key string
-//    or an array of objects when passed an array of key strings
-
-let prop = function(k, o) {
-  if (args(arguments).length < 2) return curryLast(prop, k)
-  if (Array.isArray(k)) {
-    var picked = {};
-    k.forEach(x => {picked[x] = o[x] != null ? o[x] : null})
-    return picked;
-  }
-  return !isObject(o) ? {} : o[k] != null ? o[k] : null
+let prop = function(ks, o) {
+  return arguments.length === 1 ? o => prop(ks, o) :
+    Array.isArray(ks) ? ks.reduce( (acc, k) => {
+      acc[k] = o[k] != null ? o[k] : null
+      return acc
+    } , {}) :
+    ks.indexOf('.') > -1 ? ks.split('.')
+      .reduce( (acc, k) =>
+        acc === true ? o[k] || false : acc === false ? false : acc[k] || false
+      , true) :
+    o[ks]
 }
 
 /**

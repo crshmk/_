@@ -179,12 +179,36 @@ prop('x', {x: 42, y: 43})
 prop('x', {x: x => x})(42)
 // 42
 
-prop(['id', 'name'], {id: 1, name: 'estragon', seeking: 'godot', hasRope: false})
-// {id: 1, name: 'estragon'}
+let book =
+{
+  id: 1,
+  fiction: true,
+  character: {
+    name: 'estragon',
+    seeking: 'godot',
+    hasRope: false
+  }
+}
+prop(['id', 'fiction'], book)
+// {id: 1, fiction: true}
+
+prop('character.name', book)
+// 'estragon'
+
+prop('path.to.nowhere', book)
+// false
+
+prop('fortitude', book)
+// undefined)
 ```
 *when passed a string denoting a key, returns the value of that key on an object*
 
+*when passed a dot-separated string denoting nested keys, returns the value of that nested key or false*
+
 *when passed an array of strings denoting keys, returns an object with those key/value pairs*
+
+*when passed a string as a single parameter, returns a curried version*
+
 
 ### propEq
 ( primitive, string, object ) :: boolean
@@ -198,9 +222,11 @@ propEq(1, 'one', {one: 1})
 ( function(any) :: boolean, string, object ) :: boolean
 
 ```javascript
-propSatisfies(k => equals(k, 'blue'), 'hair', {hair: 'blue'})
+propSatisfies(v => equals(v, 'blue'), 'hair', {hair: 'blue'})
 // true
 ```
+*the first param is a function that receives the value of that property and returns a boolean (after some evaluation of that property)*
+
 
 ### deepClone  
 ( object ) :: object
